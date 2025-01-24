@@ -3,42 +3,30 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
- */
 class UserFactory extends Factory
 {
-    /**
-     * The current password being used by the factory.
-     */
-    protected static ?string $password;
-
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'name' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => bcrypt('password'), // كلمة مرور افتراضية
+            'role' => $this->faker->randomElement(['user', 'admin', 'company_owner']),
+            'last_name' => $this->faker->lastName(),
+            'phone_number' => $this->faker->phoneNumber(),
+            'location' => $this->faker->city(),
+            'skills' => $this->faker->words(5, true), // 5 مهارات عشوائية
+            'cv_file_path' => $this->faker->filePath(),
+            'image' => $this->faker->imageUrl(),
+            'certificates' => $this->faker->words(3, true), // 3 شهادات عشوائية
+            'languages' => $this->faker->words(2, true), // لغتان عشوائيتان
+            'portfolio_url' => $this->faker->url(),
+            'presentation' => $this->faker->paragraph(),
+            'experience' => $this->faker->paragraph(),
             'remember_token' => Str::random(10),
         ];
-    }
-
-    /**
-     * Indicate that the model's email address should be unverified.
-     */
-    public function unverified(): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
-        ]);
     }
 }
