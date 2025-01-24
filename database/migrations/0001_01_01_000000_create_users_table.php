@@ -14,22 +14,21 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('last_name'); 
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['user', 'admin', 'company_owner'])->default('user'); // تعديل هنا
-            $table->string('first_name');
-            $table->string('last_name');
             $table->string('phone_number')->nullable();
-            $table->string('location')->nullable();
-            $table->text('skills')->nullable();
-            $table->string('cv_file_path')->nullable();
-            $table->string('image_path')->nullable();
+            $table->enum('role', ['user', 'admin', 'company_owner'])->default('user'); 
+            $table->string('location')->nullable(); 
+            $table->text('skills')->nullable(); 
+            $table->string('cv_file_path')->nullable(); 
+            $table->string('image')->nullable();
             $table->text('certificates')->nullable();
             $table->text('languages')->nullable();
             $table->string('portfolio_url')->nullable();
             $table->text('presentation')->nullable();
             $table->text('experience')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

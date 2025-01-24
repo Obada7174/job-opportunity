@@ -11,49 +11,20 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    /**
-     *
-     * @var array<string>
-     */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'role', 
-        'first_name',
-        'last_name', 
-        'phone_number',
-        'location', 
-        'skills', 
-        'cv_file_path',
-        'image_path', 
-        'certificates',
-        'languages', 
-        'portfolio_url',
-        'presentation', 
-        'experience', 
+        'name', 'email', 'password', 'role', 'first_name', 'last_name', 'phone_number',
+        'location', 'skills', 'cv_file_path', 'image_path', 'certificates', 'languages',
+        'portfolio_url', 'presentation', 'experience',
     ];
 
-    /**
-     *
-     * @var array<string>
-     */
     protected $hidden = [
-        'password',
-        'remember_token',
+        'password', 'remember_token',
     ];
 
-    /**
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
 
     public function company()
     {

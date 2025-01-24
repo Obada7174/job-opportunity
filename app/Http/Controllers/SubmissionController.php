@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\submission;
 use Illuminate\Http\Request;
 
 class SubmissionController extends Controller
@@ -34,7 +33,7 @@ class SubmissionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(submission $submission)
+    public function show(string $id)
     {
         //
     }
@@ -42,7 +41,7 @@ class SubmissionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(submission $submission)
+    public function edit(string $id)
     {
         //
     }
@@ -50,7 +49,7 @@ class SubmissionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, submission $submission)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -58,7 +57,7 @@ class SubmissionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(submission $submission)
+    public function destroy(string $id)
     {
         //
     }

@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\job_listings;
 use Illuminate\Http\Request;
 
-class JobListingsController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +33,7 @@ class JobListingsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(job_listings $job_listings)
+    public function show(string $id)
     {
         //
     }
@@ -42,7 +41,7 @@ class JobListingsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(job_listings $job_listings)
+    public function edit(string $id)
     {
         //
     }
@@ -50,7 +49,7 @@ class JobListingsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, job_listings $job_listings)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -58,7 +57,7 @@ class JobListingsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(job_listings $job_listings)
+    public function destroy(string $id)
     {
         //
     }

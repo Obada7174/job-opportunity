@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,8 +18,8 @@ class Company extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function job_listings()
+    public function jobListings()
     {
-        return $this->hasMany(job_listings::class);
+        return $this->hasMany(JobListing::class);
     }
 }

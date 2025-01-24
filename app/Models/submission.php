@@ -18,9 +18,9 @@ class Submission extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function job_listings()
+    public function jobListing()
     {
-        return $this->belongsTo(job_listings::class);
+        return $this->belongsTo(JobListing::class);
     }
 
     public function isPending()

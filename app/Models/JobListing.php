@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class job_listings extends Model
+class JobListing extends Model
 {
     use HasFactory;
 
@@ -27,6 +27,4 @@ class job_listings extends Model
     {
         return $this->hasMany(Submission::class);
     }
-
-    
 }

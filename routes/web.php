@@ -3,6 +3,11 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\JobListingController;
+use App\Http\Controllers\SubmissionController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -25,3 +30,18 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+
+
+
+
+
+
+
+
+
+Route::resource('users', UserController::class);
+Route::resource('categories', CategoryController::class);
+Route::resource('companies', CompanyController::class);
+Route::resource('job-listings', JobListingController::class);
+Route::resource('submissions', SubmissionController::class);
