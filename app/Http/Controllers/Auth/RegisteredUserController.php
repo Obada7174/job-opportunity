@@ -35,23 +35,27 @@ class RegisteredUserController extends Controller
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', '', Rules\Password::defaults()],
         ]);
+
         $defaultImage = 'default_images/default_user.png';
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'image' => asset('storage/' .$defaultImage),
+            'image' => asset('storage/' . $defaultImage),
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        // return redirect(route('dashboard', absolute: false));
+        // إنشاء Token للمستخدم
+        $token = $user->createToken('auth-token')->plainTextToken;
+
         return response()->json([
             'message' => 'User registered successfully',
             'user' => $user,
+            'token' => $token, // إرجاع الـ Token مع الاستجابة
         ], 201);
     }
 }

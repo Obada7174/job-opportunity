@@ -66,3 +66,13 @@ Route::post('/users/{userId}/skills', [UserController::class, 'addSkill']);
 
 // إزالة مهارة من المستخدم
 Route::delete('/users/{userId}/skills', [UserController::class, 'removeSkill']);
+
+use App\Http\Controllers\NotificationController;
+
+Route::middleware('auth')->group(function () {
+    // استرجاع الإشعارات مع الباجينيشن
+    Route::get('/notifications', [NotificationController::class, 'getNotifications']);
+
+    // تمييز إشعار كمقروء
+    Route::post('/notifications/{notificationId}/mark-as-read', [NotificationController::class, 'markAsRead']);
+});

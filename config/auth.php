@@ -90,6 +90,21 @@ return [
     |
     */
 
+'guards' => [
+    'web' => [
+        'driver' => 'session',
+        'provider' => 'users',
+    ],
+
+    'api' => [
+        'driver' => 'sanctum', // أو 'passport' إذا كنت تستخدم Passport
+        'provider' => 'users',
+    ],
+],
+
+
+
+
     'passwords' => [
         'users' => [
             'provider' => 'users',

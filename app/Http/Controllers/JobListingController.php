@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\JobListing;
 use Illuminate\Http\Request;
+use App\Models\Job;
+use App\Notifications\NewJobPosted;
 
 class JobListingController extends Controller
 {
@@ -28,6 +30,16 @@ class JobListingController extends Controller
         ]);
 
         $jobListing = JobListing::create($validated);
+       
+
+$job = JobListing::find(1); // الوظيفة التي تم نشرها
+
+// إرسال الإشعار إلى جميع المستخدمين الذين لديهم دور 'user'
+$users = User::where('role', 'user')->get();
+
+foreach ($users as $user) {
+    $user->notify(new NewJobPosted($job));
+}
 
         return response()->json([
             'message' => 'Job listing created successfully',
