@@ -15,4 +15,8 @@ class Category extends Model
     {
         return $this->hasMany(JobListing::class);
     }
+    public function companies()
+{
+    return $this->hasMany(Company::class);
+}
 }

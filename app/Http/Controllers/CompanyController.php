@@ -31,7 +31,7 @@ class CompanyController extends Controller
     {
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
-            'category_id' => 'required|exists:category,id',
+            'category_id' => 'required|exists:categories,id',
             'name' => 'required|string|max:255',
             'location' => 'nullable|string|max:255',
             'description' => 'nullable|string',
@@ -51,6 +51,8 @@ class CompanyController extends Controller
         return response()->json([
             'message' => 'company created successfully',
             'company' => $company,
+            'image' => $company->image ,
+            'category_id'=>$company->category_id 
         ], 201);
     }
 
@@ -66,47 +68,45 @@ class CompanyController extends Controller
         return response()->json($company);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+  
+    
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
-{
-    $company = Company::findOrFail($id);
-
-    $validated = $request->validate([
-        'user_id' => 'nullable|exists:users,id', 
-        'category_id' => 'nullable|exists:categories,id',
-        'name' => 'nullable|string|max:255',
-        'location' => 'nullable|string|max:255',
-        'description' => 'nullable|string',
-        'company_capacity' => 'nullable|string|max:255',
-        'working_hours' => 'nullable|string|max:255',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',]);
-
-    if ($request->hasFile('image')) {
-        if ($company->image) {
-            \Illuminate\Support\Facades\Storage::disk('public')->delete($company->image);
+    {
+        // تحقق من البيانات المرسلة
+        dd($request->all());
+    
+        $company = Company::findOrFail($id);
+    
+        $validated = $request->validate([
+            'user_id' => 'sometimes|exists:users,id',
+            'category_id' => 'sometimes|exists:categories,id',
+            'name' => 'sometimes|string|max:255',
+            'location' => 'sometimes|string|max:255',
+            'description' => 'sometimes|string',
+            'company_capacity' => 'sometimes|string|max:255',
+            'working_hours' => 'sometimes|string|max:255',
+            'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+    
+        if ($request->hasFile('image')) {
+            if ($company->image) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($company->image);
+            }
+            $path = $request->file('image')->store('companies', 'public');
+            $validated['image'] = $path;
         }
-
-        $path = $request->file('image')->store('companies', 'public');
-        $validated['image'] = $path; 
+    
+        $company->update($validated);
+    
+        return response()->json([
+            'message' => 'Company updated successfully',
+            'company' => $company,
+        ]);
     }
-
-    $company->update($validated);
-
-    return response()->json([
-        'message' => 'Company updated successfully',
-        'company' => $company,
-    ]);
-}
 
     /**
      * Remove the specified resource from storage.

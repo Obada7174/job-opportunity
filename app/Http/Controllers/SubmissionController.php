@@ -1,64 +1,69 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use App\Models\Submission;
 use Illuminate\Http\Request;
 
 class SubmissionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $submissions = Submission::paginate($request->get('per_page', 16));
+        return response()->json($submissions);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'job_id' => 'required|exists:job_listings,id',
+            'status' => 'sometimes|in:pending,accepted,rejected',
+            'applied_at' => 'sometimes|date',
+        ]);
+
+        $submission = Submission::create($validated);
+
+        return response()->json([
+            'message' => 'Submission created successfully',
+            'data' => $submission,
+        ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $submission = Submission::findOrFail($id);
+        return response()->json([
+            'message' => 'Submission retrieved successfully',
+            'data' => $submission,
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $submission = Submission::findOrFail($id);
+
+        $validated = $request->validate([
+            'user_id' => 'sometimes|exists:users,id',
+            'job_id' => 'sometimes|exists:job_listings,id',
+            'status' => 'sometimes|in:pending,accepted,rejected',
+            'applied_at' => 'sometimes|date',
+        ]);
+
+        $submission->update($validated);
+
+        return response()->json([
+            'message' => 'Submission updated successfully',
+            'data' => $submission,
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy($id)
     {
-        //
-    }
+        $submission = Submission::findOrFail($id);
+        $submission->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return response()->json([
+            'message' => 'Submission deleted successfully',
+        ]);
     }
 }

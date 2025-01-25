@@ -25,11 +25,11 @@ Route::get('/user', function (Request $request) {
 
 
 
-Route::resource('users', UserController::class);
-Route::resource('categories', CategoryController::class);
-Route::resource('companies', CompanyController::class);
-Route::resource('job-listings', JobListingController::class);
-Route::resource('submissions', SubmissionController::class);
+Route::apiresource('users', UserController::class);
+Route::apiResource('categories', CategoryController::class);
+Route::apiResource('companies', CompanyController::class);
+Route::apiResource('job-listings', JobListingController::class);
+Route::apiResource('submissions', SubmissionController::class);
 Route::put('user/{id}', [UserController::class, 'updateUser']);
 
 

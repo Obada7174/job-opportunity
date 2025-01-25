@@ -61,7 +61,7 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function updateCategory(Request $request, $id)
+    public function update(Request $request, $id)
 {
     $category = Category::findOrFail($id);
     

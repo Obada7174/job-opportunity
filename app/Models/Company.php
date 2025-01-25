@@ -10,7 +10,7 @@ class Company extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'location', 'description', 'company_capacity', 'industry', 'working_hours', 'image_path', 'user_id'
+        'name', 'location', 'description', 'company_capacity',  'working_hours', 'image', 'user_id','category_id'
     ];
 
     public function user()
@@ -22,4 +22,8 @@ class Company extends Model
     {
         return $this->hasMany(JobListing::class);
     }
+    public function category()
+{
+    return $this->belongsTo(Category::class);
+}
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
 /**
@@ -25,6 +26,7 @@ public function definition()
         'working_hours' => $this->faker->time('H:i'),
         'image' => $this->faker->imageUrl(),
         'user_id' => User::factory(),
+        'category_id' => Category::factory(),
     ];
 }
 }
