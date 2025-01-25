@@ -38,7 +38,7 @@ class SubmissionController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function updateSubmission(Request $request, $id)
     {
         $submission = Submission::findOrFail($id);
 

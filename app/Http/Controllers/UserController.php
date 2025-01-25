@@ -58,8 +58,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
-    {
+    public function updateUser(Request $request, $id){
         $user = User::findOrFail($id);
     
         $defaultImage = 'default_images/default_user.png'; // المسار الافتراضي للصورة
@@ -73,7 +72,7 @@ class UserController extends Controller
             'role' => 'nullable|in:user,admin,company_owner',
             'skills' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // تأكيد أن image صورة
-            'cv_file' => 'nullable|file|mimes:pdf,doc,docx|max:2048', // يسمح بتحميل ملفات PDF أو Word بحجم أقصى 2MB
+            'cv_file_path' => 'nullable|file|mimes:pdf,doc,docx|max:2048', // يسمح بتحميل ملفات PDF أو Word بحجم أقصى 2MB
             'certificates' => 'nullable|string',
             'languages' => 'nullable|string',
             'portfolio_url' => 'nullable|string|max:255',
@@ -95,14 +94,14 @@ class UserController extends Controller
         }
     
         // تحديث ملف السيرة الذاتية إذا تم رفع ملف جديد
-        if ($request->hasFile('cv_file')) {
+        if ($request->hasFile('cv_file_path')) {
             // حذف ملف السيرة الذاتية القديم إذا كان موجودًا
             if ($user->cv_file_path) {
                 Storage::disk('public')->delete($user->cv_file_path);
             }
     
             // حفظ الملف الجديد
-            $cvFilePath = $request->file('cv_file')->store('cv', 'public');
+            $cvFilePath = $request->file('cv_file_path')->store('cv', 'public');
             $validated['cv_file_path'] = $cvFilePath;
         }
     

@@ -51,7 +51,7 @@ class CompanyController extends Controller
         return response()->json([
             'message' => 'company created successfully',
             'company' => $company,
-            'image' => $company->image ,
+            'image' =>$company->image = $company->image ? asset('storage/' . $company->image) : null            ,
             'category_id'=>$company->category_id 
         ], 201);
     }
@@ -74,11 +74,8 @@ class CompanyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function updateCompany(Request $request, $id)
     {
-        // تحقق من البيانات المرسلة
-        dd($request->all());
-    
         $company = Company::findOrFail($id);
     
         $validated = $request->validate([
@@ -104,7 +101,8 @@ class CompanyController extends Controller
     
         return response()->json([
             'message' => 'Company updated successfully',
-            'company' => $company,
+            'image'=>$company->image = $company->image ? asset('storage/' . $company->image) : null,
+        'company' => $company,
         ]);
     }
 

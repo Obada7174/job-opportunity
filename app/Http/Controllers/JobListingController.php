@@ -44,7 +44,7 @@ class JobListingController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function updateJob(Request $request, $id)
     {
         $jobListing = JobListing::findOrFail($id);
 

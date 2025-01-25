@@ -30,9 +30,12 @@ Route::apiResource('categories', CategoryController::class);
 Route::apiResource('companies', CompanyController::class);
 Route::apiResource('job-listings', JobListingController::class);
 Route::apiResource('submissions', SubmissionController::class);
-Route::put('user/{id}', [UserController::class, 'updateUser']);
 
-
+Route::post('users/{id}',[UserController::class,'updateUser']);
+Route::post('categories/{id}',[CategoryController::class,'updateCategory']);
+Route::post('companies/{id}',[CompanyController::class,'updateCompany']);
+Route::post('job-listings/{id}',[JobListingController::class,'updateJob']);
+Route::post('submissions/{id}',[submissionController::class,'updateSubmission']);
 
 
 
