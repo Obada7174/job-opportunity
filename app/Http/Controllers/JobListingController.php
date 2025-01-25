@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\User;
 use App\Models\JobListing;
 use Illuminate\Http\Request;
 
@@ -77,4 +77,31 @@ class JobListingController extends Controller
             'message' => 'Job listing deleted successfully',
         ]);
     }
+
+    public function getRecommendedJobs($userId, Request $request)
+{
+    $user = User::find($userId);
+
+    if (!$user) {
+        return response()->json(['message' => 'User not found'], 404);
+    }
+
+    $userSkills = $user->skills()->pluck('skills.id');
+
+    if ($userSkills->isEmpty()) {
+        return response()->json(['message' => 'User has no skills'], 400);
+    }
+
+    $perPage = $request->get('per_page', 16);
+    
+    $recommendedJobs = JobListing::whereHas('skills', function ($query) use ($userSkills) {
+        $query->whereIn('skills.id', $userSkills);
+    })->paginate($perPage);
+
+    return response()->json([
+        'user_id' => $user->id,
+        'recommended_jobs' => $recommendedJobs,
+    ]);
+}
+
 }

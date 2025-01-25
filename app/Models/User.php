@@ -13,8 +13,8 @@ class User extends Authenticatable
 
     protected $fillable = [
         'name', 'email', 'password', 'role',  'last_name', 'phone_number',
-        'location', 'skills', 'cv_file_path', 'image', 'certificates', 'languages',
-        'portfolio_url', 'presentation', 'experience',
+        'location','cv_file_path', 'image', 'certificates', 'languages',
+        'portfolio_url', 'presentation', 'experience','desired_job',
     ];
 
     protected $hidden = [
@@ -26,6 +26,10 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class);
+    }
     public function company()
     {
         return $this->hasOne(Company::class);

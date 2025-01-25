@@ -27,4 +27,8 @@ class JobListing extends Model
     {
         return $this->hasMany(Submission::class);
     }
+    public function skills()
+{
+    return $this->belongsToMany(Skill::class);
+}
 }

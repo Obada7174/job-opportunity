@@ -16,6 +16,7 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\SkillController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -30,6 +31,7 @@ Route::apiResource('categories', CategoryController::class);
 Route::apiResource('companies', CompanyController::class);
 Route::apiResource('job-listings', JobListingController::class);
 Route::apiResource('submissions', SubmissionController::class);
+Route::Resource('skills',SkillController::class);
 
 Route::post('users/{id}',[UserController::class,'updateUser']);
 Route::post('categories/{id}',[CategoryController::class,'updateCategory']);
@@ -37,10 +39,17 @@ Route::post('companies/{id}',[CompanyController::class,'updateCompany']);
 Route::post('job-listings/{id}',[JobListingController::class,'updateJob']);
 Route::post('submissions/{id}',[submissionController::class,'updateSubmission']);
 
+// رح يرجع الوظائف القريبة لطلبي
+Route::get('/users/{userId}/recommended-jobs', [JobListingController::class, 'getRecommendedJobs']);
+//عرض مهارات المستخدم الواحد
+Route::get('/users/{userId}/skills', [UserController::class, 'getUserSkills']);
+//بحث عن مهارة
+Route::get('skill/search',[SkillController::class,'search']);
+// إضافة مهارة إلى المستخدم
+Route::post('/users/{userId}/skills', [UserController::class, 'addSkill']);
 
-
-
-
+// إزالة مهارة من المستخدم
+Route::delete('/users/{userId}/skills', [UserController::class, 'removeSkill']);
 
 
 Route::middleware('guest')->group(function () {

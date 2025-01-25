@@ -18,7 +18,6 @@ class UserFactory extends Factory
             'last_name' => $this->faker->lastName(),
             'phone_number' => $this->faker->phoneNumber(),
             'location' => $this->faker->city(),
-            'skills' => $this->faker->words(5, true), // 5 مهارات عشوائية
             'cv_file_path' => $this->faker->filePath(),
             'image' => $this->faker->imageUrl(),
             'certificates' => $this->faker->words(3, true), // 3 شهادات عشوائية

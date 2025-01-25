@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('phone_number')->nullable();
             $table->enum('role', ['user', 'admin', 'company_owner'])->default('user'); 
             $table->string('location')->nullable(); 
-            $table->text('skills')->nullable(); 
             $table->string('cv_file_path')->nullable(); 
             $table->string('image')->nullable();
             $table->text('certificates')->nullable();
@@ -28,6 +27,7 @@ return new class extends Migration
             $table->string('portfolio_url')->nullable();
             $table->text('presentation')->nullable();
             $table->text('experience')->nullable();
+            $table->string('desired_job')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

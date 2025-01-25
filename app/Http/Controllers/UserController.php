@@ -43,6 +43,7 @@ class UserController extends Controller
     
         // تعديل رابط الصورة إذا وُجدت
         $user->image = $user->image ? asset('storage/' . $user->image) : null;
+        $user->cv_file_path = $user->cv_file_path ? asset('storage/' . $user->cv_file_path) : null;
     
         return response()->json($user);
     }
@@ -70,7 +71,6 @@ class UserController extends Controller
             'phone_number' => 'nullable|string|max:15|unique:users,phone_number,' . $user->id, // تأكد من أن الحقل هو phone_number وليس phoneNumber
             'last_name' => 'nullable|string|max:255',
             'role' => 'nullable|in:user,admin,company_owner',
-            'skills' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // تأكيد أن image صورة
             'cv_file_path' => 'nullable|file|mimes:pdf,doc,docx|max:2048', // يسمح بتحميل ملفات PDF أو Word بحجم أقصى 2MB
             'certificates' => 'nullable|string',
@@ -79,6 +79,7 @@ class UserController extends Controller
             'presentation' => 'nullable|string',
             'experience' => 'nullable|string',
             'location' => 'nullable|string|max:255',
+            'desired_job'=>'nullable|string',
         ]);
     
         // تحديث الصورة إذا تم رفع صورة جديدة
@@ -142,4 +143,63 @@ class UserController extends Controller
 
         return response()->json(['message' => 'User deleted successfully']);
     }
+    
+
+    public function addSkill(Request $request, $userId)
+    {
+        $user = User::findOrFail($userId);
+
+        $request->validate([
+            'skill_id' => 'required|exists:skills,id',
+        ]);
+
+        if ($user->skills()->where('skill_id', $request->skill_id)->exists()) {
+            return response()->json(['message' => 'المهارة مضافة بالفعل'], 400);
+        }
+
+        $user->skills()->attach($request->skill_id);
+
+        return response()->json([
+            'message' => 'تمت إضافة المهارة بنجاح',
+            'skills' => $user->skills,
+        ]);
+    }
+
+    public function removeSkill(Request $request, $userId)
+    {
+        $user = User::findOrFail($userId);
+
+        $request->validate([
+            'skill_id' => 'required|exists:skills,id',
+        ]);
+
+        if (!$user->skills()->where('skill_id', $request->skill_id)->exists()) {
+            return response()->json(['message' => 'المهارة غير موجودة في حساب المستخدم'], 400);
+        }
+
+        $user->skills()->detach($request->skill_id);
+
+        return response()->json([
+            'message' => 'تمت إزالة المهارة بنجاح',
+            'skills' => $user->skills,
+        ]);
+    }
+
+    public function getUserSkills($userId)
+    {
+        $user = User::find($userId);
+
+        if (!$user) {
+            return response()->json(['message' => 'المستخدم غير موجود'], 404);
+        }
+
+        $skills = $user->skills;
+
+        return response()->json([
+            'user_id' => $user->id,
+            'skills' => $skills,
+        ]);
+    }
+
+
 }
